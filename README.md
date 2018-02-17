@@ -3,7 +3,7 @@
 This respository includes the methodology used to gather data from AWS.
 
 # Objective
-Collect around 10k websites that contains the relevant keywords from 100 Common Crawl files.
+Collect around 20.000 websites that contains the relevant keywords from 100 Common Crawl files.
 
 # 1. The AWS services employed:
 - Elastic Compute Cloud (EC2): web-based service that enables you to run application programs in the Amazon computing environment. 
@@ -98,6 +98,28 @@ aws emr create-cluster --name "cluster_name" --ec2-attributes SubnetId=subnet-XX
 Note: The AWS CLI script can be different for Windows users: http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/add-steps-cli-console.html 
 
 ### f) Monitor your Cluster from AWS Console. 
+
 Running 100 WET files can be a lengthy process and can take up to 2 days. From the EMR console, open the cluster you created. Scroll down the page and click on Steps. You should see a step for each of the WET addresses. You may have an occasional failed step, this is expected and OK. If all of your steps are failing you should terminate the cluster and check the Log files to understand the failures. 
 
 ## 2.4 Consolidate results
+
+You will need to aggregate the results of the streaming jobs you set up. This involves the following steps:
+
+### a) Download your EMR output. 
+
+Using the Console or FTP software, open and inspect your S3 output bucket. You should find one folder per step from your EMR job (minus any failed steps). With your FTP software, download all of the individual output folders to a single folder location on your local machine. Save the whole folder for each EMR job step, you don't have to pull the Part files out of them.
+
+### b) Download the concatenate.py file. 
+
+Put this python file in the same folder where you saved all your EMR output folders. Concatenate.py will open each of your EMR output folders and aggregate all of your part files into two .csv files.
+
+### c) Open a command prompt and run the concatenate.py script. 
+
+Change directory with command prompt so that you are in the same folder with the EMR output folders. Note: Your output files will need to be in a separate folder and the concatenate.py file will need to be outside of this folder in order to run properly. To run this script, enter the following into command prompt:  
+- python   concatenate.py
+
+The script will ask you for the root location from which to start the walk of directories. If nothing is entered, it will begin walking from the current working directory. The output will be two files: 'concatenated_websites.csv' and 'concatenated_factors.csv'.
+
+### d) Check the number of instances. 
+
+Open concatenated_factors.csv and inspect the contents. You need to have at least 20,000 instances. If you are short of 20,000 instances. If you are short of 20,000 instances, you may need to search additional WET files using the steps above.

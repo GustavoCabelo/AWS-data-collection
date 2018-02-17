@@ -88,7 +88,7 @@ Running a json file from CLI will initiate the creation of a new AWS EMR cluster
 
 Below is an AWS command to run the JSON file (run it from the Terminal (Mac) or Command Prompt (Windows)); change the following areas (shown as XXXX):
 ------
-"aws emr create-cluster --name "cluster_name" --ec2-attributes SubnetId=subnet-XXXXX --emr-version 5.11.0 --auto-terminate --log-uri s3://XXXXX --use-default-roles --enable-debugging --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=c4.large InstanceGroupType=CORE,InstanceCount=3,InstanceType=c4.large --steps file://XXXXX.json"
+aws emr create-cluster --name "cluster_name" --ec2-attributes SubnetId=subnet-XXXXX --emr-version 5.11.0 --auto-terminate --log-uri s3://XXXXX --use-default-roles --enable-debugging --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=c4.large InstanceGroupType=CORE,InstanceCount=3,InstanceType=c4.large --steps file://XXXXX.json
 ------
 - Cluster Name
 - subnetID: SubnetId can be found by visiting one of your recent, successful clusters using Console. Look under Network and Hardware. You should see something with a structure similar to: subnet-61e40522
@@ -97,5 +97,7 @@ Below is an AWS command to run the JSON file (run it from the Terminal (Mac) or 
 
 Note: The AWS CLI script can be different for Windows users: http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/add-steps-cli-console.html 
 
-### Monitor your Cluster from AWS Console. Running 100 WET files can be a lengthy process and can take up to 2 days. From the EMR console, open the cluster you created. Scroll down the page and click on Steps. You should see a step for each of the WET addresses. You may have an occasional failed step, this is expected and OK. If all of your steps are failing you should terminate the cluster and check the Log files to understand the failures. 
+### f) Monitor your Cluster from AWS Console. 
+Running 100 WET files can be a lengthy process and can take up to 2 days. From the EMR console, open the cluster you created. Scroll down the page and click on Steps. You should see a step for each of the WET addresses. You may have an occasional failed step, this is expected and OK. If all of your steps are failing you should terminate the cluster and check the Log files to understand the failures. 
 
+## 2.4 Consolidate results
